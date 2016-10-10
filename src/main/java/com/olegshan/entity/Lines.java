@@ -3,36 +3,38 @@ package com.olegshan.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Map;
+import javax.persistence.Table;
+import java.util.HashMap;
 
 @Entity
+@Table(name = "LINES_TABLE")
 public class Lines {
 
     @Id
     @GeneratedValue
-    private long id;
-    private Map<String, Integer> map;
+    private Long id;
+    private HashMap<String, Integer> map;
 
     public Lines() {
     }
 
-    public Lines(Map<String, Integer> map) {
+    public Lines(HashMap<String, Integer> map) {
         this.map = map;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Map<String, Integer> getMap() {
+    public HashMap<String, Integer> getMap() {
         return map;
     }
 
-    public void setMap(Map<String, Integer> map) {
+    public void setMap(HashMap<String, Integer> map) {
         this.map = map;
     }
 }

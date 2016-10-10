@@ -3,32 +3,46 @@ package com.olegshan.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.io.File;
 
 @Entity
 public class Files {
 
     @Id
     @GeneratedValue
-    private long id;
-    private File file;
+    private Long id;
+    private String name;
+    private byte[] bytes;
 
     public Files() {
     }
 
-    public long getId() {
+    public Files(String name, byte[] bytes) {
+        this.name = name;
+        this.bytes = bytes;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public File getFile() {
-        return file;
+    public String getName() {
+        return name;
     }
 
-    public void setFile(File file) {
-        this.file = file;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
+    }
+
 }
