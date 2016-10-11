@@ -27,9 +27,15 @@ public class ParseController {
         if (files == null || files.length == 0) {
             return "You didn't choose any files";
         }
+        for (MultipartFile file : files) {
+            if (!file.getContentType().equals("text/plain")) {
+                return "Please upload only .txt files";
+            }
+        }
         uploadService.save(files);
         return "All files uploaded successfully";
     }
+
     @RequestMapping(value = "/parse", method = RequestMethod.GET)
     public Map<String, Integer> parse() {
         return parseService.parseAll();

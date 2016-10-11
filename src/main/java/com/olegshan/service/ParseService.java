@@ -34,8 +34,12 @@ public class ParseService {
     }
 
     private List<File> getAllFilesFromDb() {
+        List<Files> dbList = fileRepository.findAll();
+        if (dbList.isEmpty()) {
+            throw new RuntimeException("The database is empty. You should upload some files before parsing");
+        }
         List<File> list = new ArrayList<>();
-        for (Files f : fileRepository.findAll()) {
+        for (Files f : dbList) {
             File file = new File(f.getName());
             try {
                 FileOutputStream fos = new FileOutputStream(file);
