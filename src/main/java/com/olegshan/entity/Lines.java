@@ -1,9 +1,6 @@
 package com.olegshan.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashMap;
 
 @Entity
@@ -13,6 +10,7 @@ public class Lines {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(columnDefinition = "LONGBLOB")
     private HashMap<String, Integer> map;
 
     public Lines() {

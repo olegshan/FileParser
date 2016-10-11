@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.annotation.MultipartConfig;
 import java.util.Map;
 
 @RestController
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10)
 public class ParseController {
 
     @Autowired
