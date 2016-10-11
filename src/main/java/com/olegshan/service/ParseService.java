@@ -41,12 +41,20 @@ public class ParseService {
         List<File> list = new ArrayList<>();
         for (Files f : dbList) {
             File file = new File(f.getName());
+            FileOutputStream fos = null;
             try {
-                FileOutputStream fos = new FileOutputStream(file);
+                fos = new FileOutputStream(file);
                 fos.write(f.getBytes());
-                fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             list.add(file);
         }
