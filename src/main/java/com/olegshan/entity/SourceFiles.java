@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Files {
+public class SourceFiles {
 
     @Id
     @GeneratedValue
@@ -15,10 +15,10 @@ public class Files {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] bytes;
 
-    public Files() {
+    public SourceFiles() {
     }
 
-    public Files(String name, byte[] bytes) {
+    public SourceFiles(String name, byte[] bytes) {
         this.name = name;
         this.bytes = bytes;
     }

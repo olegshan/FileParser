@@ -1,6 +1,6 @@
 package com.olegshan.service;
 
-import com.olegshan.entity.Files;
+import com.olegshan.entity.SourceFiles;
 import com.olegshan.entity.Lines;
 import com.olegshan.repository.FileRepository;
 import com.olegshan.repository.LinesRepository;
@@ -39,12 +39,12 @@ public class ParseService {
 
     private List<File> getAllFilesFromDb() {
         map = new HashMap<>();
-        List<Files> dbList = fileRepository.findAll();
+        List<SourceFiles> dbList = fileRepository.findAll();
         if (dbList.isEmpty()) {
             throw new RuntimeException("The database is empty. You should upload some files before parsing");
         }
         List<File> list = new ArrayList<>();
-        for (Files f : dbList) {
+        for (SourceFiles f : dbList) {
             File file = new File(f.getName());
             FileOutputStream fos = null;
             try {

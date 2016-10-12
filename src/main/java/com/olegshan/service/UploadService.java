@@ -1,6 +1,6 @@
 package com.olegshan.service;
 
-import com.olegshan.entity.Files;
+import com.olegshan.entity.SourceFiles;
 import com.olegshan.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class UploadService {
             try {
                 String name = file.getOriginalFilename();
                 byte[] bytes = file.getBytes();
-                Files fileToUpload = new Files(name, bytes);
+                SourceFiles fileToUpload = new SourceFiles(name, bytes);
                 fileRepository.save(fileToUpload);
             } catch (IOException e) {
                 e.printStackTrace();
