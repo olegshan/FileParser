@@ -18,11 +18,15 @@ import java.util.concurrent.Executors;
 @Service
 public class ParseService {
 
-    @Autowired
-    private FileRepository fileRepository;
-    @Autowired
-    private LinesRepository linesRepository;
+    private final FileRepository fileRepository;
+    private final LinesRepository linesRepository;
     private Map<String, Integer> map;
+
+    @Autowired
+    public ParseService(FileRepository fileRepository, LinesRepository linesRepository) {
+        this.fileRepository = fileRepository;
+        this.linesRepository = linesRepository;
+    }
 
     public Map<String, Integer> parseAll() {
         List<File> fileList = getAllFilesFromDb();

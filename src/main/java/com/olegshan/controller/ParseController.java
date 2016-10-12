@@ -14,10 +14,14 @@ import java.util.Map;
 @RestController
 public class ParseController {
 
+    private final UploadService uploadService;
+    private final ParseService parseService;
+
     @Autowired
-    private UploadService uploadService;
-    @Autowired
-    private ParseService parseService;
+    public ParseController(UploadService uploadService, ParseService parseService) {
+        this.uploadService = uploadService;
+        this.parseService = parseService;
+    }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String upload(@RequestParam("files") MultipartFile[] files) {

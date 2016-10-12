@@ -10,9 +10,12 @@ import java.io.IOException;
 
 @Service
 public class UploadService {
+    private final FileRepository fileRepository;
 
     @Autowired
-    private FileRepository fileRepository;
+    public UploadService(FileRepository fileRepository) {
+        this.fileRepository = fileRepository;
+    }
 
     public void save(MultipartFile[] files) {
         for (MultipartFile file : files) {
