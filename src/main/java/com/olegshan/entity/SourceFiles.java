@@ -13,14 +13,14 @@ public class SourceFiles {
     private Long id;
     private String name;
     @Column(columnDefinition = "LONGBLOB")
-    private byte[] bytes;
+    private String content;
 
     public SourceFiles() {
     }
 
-    public SourceFiles(String name, byte[] bytes) {
+    public SourceFiles(String name, String content) {
         this.name = name;
-        this.bytes = bytes;
+        this.content = content;
     }
 
     public Long getId() {
@@ -39,12 +39,11 @@ public class SourceFiles {
         this.name = name;
     }
 
-    public byte[] getBytes() {
-        return bytes;
+    public String getContent() {
+        return content;
     }
 
-    public void setBytes(byte[] bytes) {
-        this.bytes = bytes;
+    public void setContent(String content) {
+        this.content = content;
     }
-
 }
