@@ -22,7 +22,7 @@ public class ParseService {
     private FileRepository fileRepository;
     @Autowired
     private LinesRepository linesRepository;
-    private HashMap<String, Integer> map = new HashMap<>();
+    private Map<String, Integer> map = new HashMap<>();
 
     public Map<String, Integer> parseAll() {
         List<File> fileList = getAllFilesFromDb();

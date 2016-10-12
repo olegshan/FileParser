@@ -1,7 +1,7 @@
 package com.olegshan.entity;
 
 import javax.persistence.*;
-import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "LINES_TABLE")
@@ -11,12 +11,13 @@ public class Lines {
     @GeneratedValue
     private Long id;
     @Column(columnDefinition = "LONGBLOB")
-    private HashMap<String, Integer> map;
+    @ElementCollection
+    private Map<String, Integer> map;
 
     public Lines() {
     }
 
-    public Lines(HashMap<String, Integer> map) {
+    public Lines(Map<String, Integer> map) {
         this.map = map;
     }
 
@@ -28,11 +29,11 @@ public class Lines {
         this.id = id;
     }
 
-    public HashMap<String, Integer> getMap() {
+    public Map<String, Integer> getMap() {
         return map;
     }
 
-    public void setMap(HashMap<String, Integer> map) {
+    public void setMap(Map<String, Integer> map) {
         this.map = map;
     }
 }
