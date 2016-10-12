@@ -22,7 +22,7 @@ public class ParseService {
     private FileRepository fileRepository;
     @Autowired
     private LinesRepository linesRepository;
-    private Map<String, Integer> map = new HashMap<>();
+    private Map<String, Integer> map;
 
     public Map<String, Integer> parseAll() {
         List<File> fileList = getAllFilesFromDb();
@@ -34,6 +34,7 @@ public class ParseService {
     }
 
     private List<File> getAllFilesFromDb() {
+        map = new HashMap<>();
         List<Files> dbList = fileRepository.findAll();
         if (dbList.isEmpty()) {
             throw new RuntimeException("The database is empty. You should upload some files before parsing");
