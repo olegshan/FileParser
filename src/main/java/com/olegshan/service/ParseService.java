@@ -33,8 +33,15 @@ public class ParseService {
         Map<String, Integer> map = new HashMap<>();
         List<File> fileList = getAllFilesFromDb();
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-        fileList.forEach(file -> executorService.submit(() -> parseLines(file, map)));
+        fileList.forEach(file -> executorService.execute(() -> parseLines(file, map)));
         executorService.shutdown();
+        while (!executorService.isTerminated()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         linesRepository.save(new Lines(map));
         return map;
     }
