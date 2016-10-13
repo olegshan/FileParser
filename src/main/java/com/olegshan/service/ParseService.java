@@ -46,14 +46,14 @@ public class ParseService {
                 logger.error("Error while shutting down the Executor service: ", e);
             }
         }
-        logger.info("Saving parsing results into database...");
+        logger.debug("Saving parsing results into database...");
         linesRepository.save(new Lines(map));
-        logger.info("Parsing results saved.");
+        logger.debug("Parsing results saved.");
         return map;
     }
 
     private List<File> getAllFilesFromDb() {
-        logger.info("Getting files from database...");
+        logger.debug("Getting files from database...");
         List<SourceFiles> dbList = fileRepository.findAll();
         if (dbList.isEmpty()) {
             throw new RuntimeException("The database is empty. You should upload some files before parsing");
@@ -68,7 +68,7 @@ public class ParseService {
     }
 
     private void parseLines(File file, Map<String, Integer> map) {
-        logger.info("Parsing file {}", file.getName());
+        logger.debug("Parsing file {}", file.getName());
         String line;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
