@@ -40,6 +40,6 @@ public class ParseController {
 
     @RequestMapping(value = "/parse", method = RequestMethod.GET)
     public Map<String, Integer> parse() {
-        return parseService.parseAll();
+        return parseService.parse();
     }
 }

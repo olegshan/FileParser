@@ -32,7 +32,7 @@ public class ParseService {
         this.linesRepository = linesRepository;
     }
 
-    public Map<String, Integer> parseAll() {
+    public Map<String, Integer> parse() {
         logger.info("Parsing started...");
         Map<String, Integer> map = new HashMap<>();
         List<File> fileList = getAllFilesFromDb();
