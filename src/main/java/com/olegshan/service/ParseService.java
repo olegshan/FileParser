@@ -25,6 +25,7 @@ public class ParseService {
     private final FileRepository fileRepository;
     private final LinesRepository linesRepository;
     private final Logger logger = LoggerFactory.getLogger(ParseService.class);
+    private final static int MAX_THREADS_COUNT = 3;
 
     @Autowired
     public ParseService(FileRepository fileRepository, LinesRepository linesRepository) {
@@ -36,7 +37,7 @@ public class ParseService {
         logger.info("Parsing started...");
         Map<String, Integer> map = new HashMap<>();
         List<File> fileList = getAllFilesFromDb();
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREADS_COUNT);
         fileList.forEach(file -> executorService.execute(() -> parseLines(file, map)));
         executorService.shutdown();
         while (!executorService.isTerminated()) {
