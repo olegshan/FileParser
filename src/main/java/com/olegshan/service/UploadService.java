@@ -32,6 +32,7 @@ public class UploadService {
                 logger.info("File {} uploaded successfully.", name);
             } catch (IOException e) {
                 logger.error("Error while file uploading: ", e);
+                throw new RuntimeException(e);
             }
         }
     }

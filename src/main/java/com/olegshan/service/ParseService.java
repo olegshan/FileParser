@@ -45,6 +45,7 @@ public class ParseService {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 logger.error("Error while shutting down the Executor service: ", e);
+                throw new RuntimeException(e);
             }
         }
         logger.debug("Saving parsing results into database...");
@@ -78,6 +79,7 @@ public class ParseService {
             }
         } catch (java.io.IOException e) {
             logger.error("Reading of lines failed: ", e);
+            throw new RuntimeException(e);
         }
     }
 }
