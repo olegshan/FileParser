@@ -4,6 +4,8 @@ import com.olegshan.entity.Lines;
 import com.olegshan.entity.SourceFiles;
 import com.olegshan.repository.FileRepository;
 import com.olegshan.repository.LinesRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class ParseService {
 
     private final FileRepository fileRepository;
     private final LinesRepository linesRepository;
+    private final Logger logger = LoggerFactory.getLogger(ParseService.class);
 
     @Autowired
     public ParseService(FileRepository fileRepository, LinesRepository linesRepository) {
@@ -30,6 +33,7 @@ public class ParseService {
     }
 
     public Map<String, Integer> parseAll() {
+        logger.info("Parsing started...");
         Map<String, Integer> map = new HashMap<>();
         List<File> fileList = getAllFilesFromDb();
         ExecutorService executorService = Executors.newFixedThreadPool(3);
@@ -39,14 +43,17 @@ public class ParseService {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("Error while shutting down the Executor service: ", e);
             }
         }
+        logger.info("Saving parsing results into database...");
         linesRepository.save(new Lines(map));
+        logger.info("Parsing results saved.");
         return map;
     }
 
     private List<File> getAllFilesFromDb() {
+        logger.info("Getting files from database...");
         List<SourceFiles> dbList = fileRepository.findAll();
         if (dbList.isEmpty()) {
             throw new RuntimeException("The database is empty. You should upload some files before parsing");
@@ -56,10 +63,12 @@ public class ParseService {
             File file = new File(f.getName());
             list.add(file);
         }
+        logger.info("All files received.");
         return list;
     }
 
     private void parseLines(File file, Map<String, Integer> map) {
+        logger.info("Parsing file {}", file.getName());
         String line;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -67,7 +76,7 @@ public class ParseService {
                 map.put(line, map.getOrDefault(line, 0) + 1);
             }
         } catch (java.io.IOException e) {
-            e.printStackTrace();
+            logger.error("Reading of lines failed: ", e);
         }
     }
 }
