@@ -22,7 +22,6 @@ public class ParseService {
 
     private final FileRepository fileRepository;
     private final LinesRepository linesRepository;
-    private Map<String, Integer> map;
 
     @Autowired
     public ParseService(FileRepository fileRepository, LinesRepository linesRepository) {
@@ -31,10 +30,10 @@ public class ParseService {
     }
 
     public Map<String, Integer> parseAll() {
-        map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>();
         List<File> fileList = getAllFilesFromDb();
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-        fileList.forEach(file -> executorService.execute(() -> parseLines(file)));
+        fileList.forEach(file -> executorService.submit(() -> parseLines(file, map)));
         executorService.shutdown();
         linesRepository.save(new Lines(map));
         return map;
@@ -53,7 +52,7 @@ public class ParseService {
         return list;
     }
 
-    private void parseLines(File file) {
+    private void parseLines(File file, Map<String, Integer> map) {
         String line;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
