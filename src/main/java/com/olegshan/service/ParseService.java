@@ -22,10 +22,10 @@ import java.util.concurrent.Executors;
 @Service
 public class ParseService {
 
+    private final static int MAX_THREADS_COUNT = 3;
     private final FileRepository fileRepository;
     private final LinesRepository linesRepository;
     private final Logger logger = LoggerFactory.getLogger(ParseService.class);
-    private final static int MAX_THREADS_COUNT = 3;
 
     @Autowired
     public ParseService(FileRepository fileRepository, LinesRepository linesRepository) {
