@@ -17,6 +17,10 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This class gets all files from database, parses them and puts results into a map.
+ * That map will be returned to ParseController class and also will be put into the database.
+ */
 @Service
 public class ParseService {
 

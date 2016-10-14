@@ -9,6 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
+/**
+ * This REST application receives files and parses them in parallel way.
+ * The result of parsing is map with lines as the keys and number of their occurrences as the values.
+ * Both source files and maps with result of parsing are stored into the database.
+ */
 @RestController
 public class ParseController {
 
