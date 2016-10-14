@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +36,14 @@ public class ParseService {
         Map<String, Integer> map = new HashMap<>();
         List<File> fileList = getAllFilesFromDb();
         ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREADS_COUNT);
-        fileList.forEach(file -> executorService.execute(() -> parseLines(file, map)));
+        fileList.forEach(file -> executorService.execute(() -> {
+            try {
+                parseLines(file, map);
+            } catch (IOException e) {
+                logger.error("Error while parsing the lines: ", e);
+                throw new RuntimeException(e);
+            }
+        }));
         executorService.shutdown();
         while (!executorService.isTerminated()) {
             try {
@@ -50,7 +55,7 @@ public class ParseService {
         }
         logger.debug("Saving parsing results into database...");
         linesRepository.save(new Lines(map));
-        logger.debug("Parsing results saved.");
+        logger.info("Parsing results saved.");
         return map;
     }
 
@@ -63,23 +68,34 @@ public class ParseService {
         List<File> list = new ArrayList<>();
         for (SourceFiles f : dbList) {
             File file = new File(f.getName());
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(file);
+                fos.write(f.getBytes());
+            } catch (IOException e) {
+                logger.error("Error while getting file {} from database", f.getName());
+                throw new RuntimeException(e);
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        logger.error("Error while closing outputstream");
+                    }
+                }
+            }
             list.add(file);
         }
         logger.info("All files received.");
         return list;
     }
 
-    private void parseLines(File file, Map<String, Integer> map) {
+    private void parseLines(File file, Map<String, Integer> map) throws IOException {
         logger.debug("Parsing file {}", file.getName());
         String line;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            while ((line = reader.readLine()) != null) {
-                map.put(line, map.getOrDefault(line, 0) + 1);
-            }
-        } catch (java.io.IOException e) {
-            logger.error("Reading of lines failed: ", e);
-            throw new RuntimeException(e);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        while ((line = reader.readLine()) != null) {
+            map.put(line, map.getOrDefault(line, 0) + 1);
         }
     }
 }

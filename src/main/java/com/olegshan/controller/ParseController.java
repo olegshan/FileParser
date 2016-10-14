@@ -32,6 +32,9 @@ public class ParseController {
             if (!file.getContentType().equals("text/plain")) {
                 throw new IllegalArgumentException("Please upload .txt files only");
             }
+            if (file.getSize() > (1024 * 1024 * 30)) {
+                throw new IllegalArgumentException("Your file is too big. Please upload files up to 30 MB");
+            }
         }
         uploadService.save(files);
         return "All files uploaded successfully";
